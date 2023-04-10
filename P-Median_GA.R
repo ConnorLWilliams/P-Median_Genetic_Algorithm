@@ -1,5 +1,12 @@
 setwd("~/GitHub/P-Median_Genetic_Algorithm")
 
+
+##---- Toy Dataset----
+toy_scatter <- data.frame(
+  X = c(),
+  Y = c()
+)
+
 ##---- Data input-----
 locations <- 100 #number of total locations
 p <- 10 #number of stations to be used to calculate medians
@@ -10,17 +17,27 @@ loc_scatter = data.frame(
 )
 
 ##---- Initial Population----
-pop_size <- 100 #population size
-
-Population <- matrix(0, pop_size, locations) #generate a matrix of [population size][locations]
-for(Chrom in 1:pop_size) {
-  randStations <- sample(1:locations, p, replace = F)
-  for(allele in randStations) {
-    Population[Chrom, allele] <- 1
+#Generates a random Population of Chromosomes
+generate_population <- function(population_size, p, locations) {
+  pop_size <- population_size #population size
+  
+  Population <- matrix(0, pop_size, locations) #generate a matrix of [population size][locations]
+  for(Chrom in 1:pop_size) {
+    randStations <- sample(1:locations, p, replace = F)
+    for(allele in randStations) {
+      Population[Chrom, allele] <- 1
+    }
   }
+  
+  return(Population)
 }
 
+pop_size <- 100
+Population <- generate_population(pop_size, p, locations)
 print(Population)
+
+##---- Plot Connections----
+
 
 ##---- Distance Function----
 get_dists <- function(locations, Chromosome, pop_size) { ##Distance function that should also serve as fitness
@@ -46,11 +63,46 @@ get_dists <- function(locations, Chromosome, pop_size) { ##Distance function tha
   return(sum)
 }
 
-print(get_dists(loc_scatter, Population[100, ], pop_size))
-##---- Selection----
+## Testing Code
 
+# test_scatter <- data.frame(
+#   X = c(5, 7, 13, 15),
+#   Y = c(1, 1, 1, 1))
+# test_Pop <- c(0, 0, 1, 1)
+
+# print(get_dists(loc_scatter, Population[100, ], pop_size))
+# print(get_dists(test_scatter, test_Pop, 4))
+
+##---- Selection----
+sel_rank <- function(Population, Locations) {
+  ranks <- matrix(0, nrow(Population), 2)
+  
+  for(Chrom in 1:nrow(Population)) {
+    fitness <- get_dists(Locations, Population[Chrom, ], nrow(Population))
+    ranks[Chrom, 1] <- Chrom
+    ranks[Chrom, 2] <- fitness
+  }
+  
+  ranks <- ranks[order(ranks[,2], decreasing = TRUE), ]
+  
+  #Needs to be finished currently takes in the input and creates the ranking matrix, but does not define integer ranges for selection
+  
+  return(ranks)
+}
+
+sel_roulette <- function(Population, Locations) {
+  
+}
+
+selection <- function(sel_type, Population, Locations) {
+    
+}
+
+print(sel_rank(Population, loc_scatter))
 ##---- Crossover----
 
 ##---- Mutation----
 
-##---- Genetic Algorithms----
+##---- Genetic Algorithm----
+
+##---- 
