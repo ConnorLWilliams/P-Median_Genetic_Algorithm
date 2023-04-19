@@ -1,6 +1,5 @@
 setwd("~/GitHub/P-Median_Genetic_Algorithm")
 
-
 ##---- Toy Dataset----
 toy_scatter <- data.frame(
   X = c(),
@@ -74,6 +73,11 @@ get_dists <- function(locations, Chromosome, pop_size) { ##Distance function tha
 # print(get_dists(test_scatter, test_Pop, 4))
 
 ##---- Selection----
+rank_max <- 0
+for(i in 1:pop_size) {
+  rank_max <- rank_max + i
+}
+
 sel_rank <- function(Population, Locations) {
   ranks <- matrix(0, nrow(Population), 2)
   
@@ -86,23 +90,75 @@ sel_rank <- function(Population, Locations) {
   ranks <- ranks[order(ranks[,2], decreasing = TRUE), ]
   
   #Needs to be finished currently takes in the input and creates the ranking matrix, but does not define integer ranges for selection
-  
   return(ranks)
 }
 
 sel_roulette <- function(Population, Locations) {
+  ranks <- matrix(0, nrow(Population), 3)
+  
+  for(Chrom in 1:nrow(Population)) {
+    fitness <- get_dists(Locations, Population[Chrom, ], nrow(Population))
+    ranks[Chrom, 1] <- Chrom
+    ranks[Chrom, 2] <- fitness
+  }
+  
+  total_fit <- sum(ranks[, 2])
+  
+  ranks <- ranks[order(ranks[,2], decreasing = TRUE), ]
+  
+  for(Chrom in 1:nrow(ranks)) {
+    ranks[Chrom, 3] <- total_fit / ranks[Chrom, 2]
+  }
+  
+  #Needs to be finished currently takes in the input and creates the ranking matrix, but does not define integer ranges for selection
+  return(ranks)
   
 }
 
-selection <- function(sel_type, Population, Locations) {
-    
+rank_selection <- function(rank_mat, r_max) { #rmax -> either rank or roulette max
+  to_populate <- sample(1:r_max, 1) #take a sample within the range of the ranks 1:summation(population_size)
+  rank_d <- 0
+  for(i in 1:pop_size) { #step through the summation when the selected number <= the summation then it is chosen (solves range sizes)
+    rank_d <- rank_d + i
+    if(to_populate <= rank_d) {
+      return(rank_mat[i, 1])
+    }
+  }
 }
 
-print(sel_rank(Population, loc_scatter))
+roul_selection <- function(rank_mat, r_max) { #rmax -> either rank or roulette max
+  #to_populate <- sample(1:r_max, 1) #take a sample within the range of the ranks 1:summation(population_size)
+  to_populate <- round(runif(1,1,r_max), 5)
+  rank_d <- 0
+  for(i in 1:pop_size) { #step through the summation when the selected number <= the summation then it is chosen (solves range sizes)
+    rank_d <- rank_d + rank_mat[i, 3]
+    if(to_populate <= rank_d) {
+      return(rank_mat[i, 1])
+    }
+  }
+}
+
+# RANK TESTING CODE
+generation_rank <- sel_rank(Population, loc_scatter)
+print(generation_rank)
+for(i in 1:100) {
+  print(rank_selection(generation_rank, sum(generation_rank[, 1])))
+}
+rank_selection(generation_rank, sum(generation_rank[, 1]))
+
+# ROULETTE TESTING CODE
+generation_roul <- sel_roulette(Population, loc_scatter)
+print(generation_roul)
+print(sum(generation_roul[, 3]))
+for(i in 1:100) {
+  print(roul_selection(generation_roul, sum(generation_roul[, 3])))
+}
+roul_selection(generation_roul, sum(generation_roul[, 3]))
+
+
 ##---- Crossover----
 
 ##---- Mutation----
 
 ##---- Genetic Algorithm----
 
-##---- 
