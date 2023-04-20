@@ -1,12 +1,7 @@
 setwd("~/GitHub/P-Median_Genetic_Algorithm")
 
-##---- Toy Dataset----
-toy_scatter <- data.frame(
-  X = c(),
-  Y = c()
-)
-
 ##---- Data input-----
+#For Completely Rankdom Data
 locations <- 100 #number of total locations
 p <- 10 #number of stations to be used to calculate medians
 
@@ -14,6 +9,21 @@ loc_scatter = data.frame(
   x = rnorm(100, mean = 50, sd=50),
   y = rnorm(100, mean = 50, sd=50)
 )
+
+##---- Toy Data----
+toy_data <- function(radius, p, num_locations) {
+  circle_x_centers <- sample(1:500, p, replace = TRUE)
+  circle_y_centers <- sample(1:500, p, replace = TRUE)
+  x <- rnorm(num_locations, mean = circle_x_centers, sd = radius)
+  y <- rnorm(num_locations, mean = circle_y_centers, sd = radius)
+  
+  loc_scatter <- data.frame(
+    x = x,
+    y = y
+  )
+  
+  return(loc_scatter)
+}
 
 ##---- Initial Population----
 #Generates a random Population of Chromosomes
@@ -204,6 +214,51 @@ uniform <- function(P1, P2) {
 
 }
 
+two_point <- function(P1, P2) {
+  C1 <- c()
+  C2 <- c()
+  cuts <- sample(1:length(P1), 2, replace = FALSE)
+  for(i in 1:length(P1)) {
+    if(i >= cuts[1] && i <= cuts[2]) {
+      C1[i] <- P2[i]
+      C2[i] <- P1[i]
+    } else {
+      C1[i] <- P1[i]
+      C2[i] <- P2[i]
+    }
+  }
+  
+  #Needs fixup
+  if(sum(C1 == 1) > p) {
+    medianPos <- which(C1 == 1)
+    newPos <- sample(medianPos, p, replace = FALSE) #randomly select p medians to keep
+    C1 <- lapply(C1, replace, TRUE, 0)
+    for(m in newPos) {
+      C1[m] <- 1
+    }
+  }
+  if(sum(C1 == 1) < p) {
+    while(sum(C1 == 1) < p) {
+      C1[sample(1:length(C1), 1)] <- 1 #randomly select positions and set them to 1 -- Could in theory take some number of them from P1
+    }
+  }
+  
+  if(sum(C2 == 1) > p) {
+    medianPos <- which(C2 == 1)
+    newPos <- sample(medianPos, p, replace = FALSE)
+    C2 <- lapply(C2, replace, TRUE, 0)
+    for(m in newPos) {
+      C2[m] <- 1
+    }
+  }
+  if(sum(C2 == 1) < p) {
+    while(sum(C2 == 1) < p) {
+      C2[sample(1:length(C2), 1)] <- 1
+    }
+  }
+  return(list(C1, C2))
+}
+
 # Uniform Testing Code -> uses Rank Selection
 u_children <- uniform(Population[rank_parent_sel[1], ], Population[rank_parent_sel[2], ])
 child1 <- as.vector(unlist(u_children[1]))
@@ -211,7 +266,25 @@ child2 <- as.vector(unlist(u_children[2]))
 print(sum(child1 == 1))
 print(sum(child2 == 1))
 
+#Two-Point Testing Code -> uses Rank selection
+tp_children <- two_point(Population[rank_parent_sel[1], ], Population[rank_parent_sel[2], ])
+child1 <- as.vector(unlist(tp_children[1]))
+child2 <- as.vector(unlist(tp_children[2]))
+print(sum(child1 == 1))
+print(sum(child2 == 1))
+
 ##---- Mutation----
+## Bit-Flip Mutation
+bit_flip <- function(Chromosome) {
+  medianPos <- which(Chromosome == 1)
+  new_station <- sample(medianPos, 1, replace = FALSE) #randomly select p medians to change
+  station <- which(Chromosome == 0)
+  new_median <- sample(station, 1, replace = FALSE) #randomly select station to make median
+  Chromosome[new_median] <- 1
+  Chromosome[new_station] <- 0
+  return(Chromosome)
+}
 
-##---- Genetic Algorithm----
-
+#Bit-Flip Testing Code
+print(Population[1, ])
+print(bit_flip(Population[1, ]))
