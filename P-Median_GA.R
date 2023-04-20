@@ -171,41 +171,45 @@ uniform <- function(P1, P2) {
       C2[i] <- P1[i]
     }
   }
+  
   #Needs fixup
   if(sum(C1 == 1) > p) {
     medianPos <- which(C1 == 1)
-    medianPos <- sample(medianPos, p, replace = FALSE) #randomly select p medians to keep
-    lapply(C1, replace, TRUE, 0)
-    for(m in medianPos) {
-      C1[medianPos] <- 1
+    newPos <- sample(medianPos, p, replace = FALSE) #randomly select p medians to keep
+    C1 <- lapply(C1, replace, TRUE, 0)
+    for(m in newPos) {
+      C1[m] <- 1
     }
-  } else if(sum(C1 == 1) < p) {
+  }
+  if(sum(C1 == 1) < p) {
     while(sum(C1 == 1) < p) {
       C1[sample(1:length(C1), 1)] <- 1 #randomly select positions and set them to 1 -- Could in theory take some number of them from P1
     }
   }
   
-  
   if(sum(C2 == 1) > p) {
     medianPos <- which(C2 == 1)
-    medianPos <- sample(medianPos, p, replace = FALSE)
-    lapply(C2, replace, TRUE, 0)
-    for(m in medianPos) {
-      C2[medianPos] <- 1
+    newPos <- sample(medianPos, p, replace = FALSE)
+    C2 <- lapply(C2, replace, TRUE, 0)
+    for(m in newPos) {
+      C2[m] <- 1
     }
-  } else if(sum(C2 == 1) < p) {
+  }
+  if(sum(C2 == 1) < p) {
     while(sum(C2 == 1) < p) {
       C2[sample(1:length(C2), 1)] <- 1
     }
   }
-  
-  return(c(C1, C2))
+  return(list(C1, C2))
+
 }
 
 # Uniform Testing Code -> uses Rank Selection
 u_children <- uniform(Population[rank_parent_sel[1], ], Population[rank_parent_sel[2], ])
-print(u_children[1])
-print(u_children[2])
+child1 <- as.vector(unlist(u_children[1]))
+child2 <- as.vector(unlist(u_children[2]))
+print(sum(child1 == 1))
+print(sum(child2 == 1))
 
 ##---- Mutation----
 
