@@ -73,11 +73,7 @@ get_dists <- function(locations, Chromosome, pop_size) { ##Distance function tha
 # print(get_dists(test_scatter, test_Pop, 4))
 
 ##---- Selection----
-rank_max <- 0
-for(i in 1:pop_size) {
-  rank_max <- rank_max + i
-}
-
+##Rank Selection
 sel_rank <- function(Population, Locations) {
   ranks <- matrix(0, nrow(Population), 2)
   
@@ -93,6 +89,7 @@ sel_rank <- function(Population, Locations) {
   return(ranks)
 }
 
+##Roulette Selection
 sel_roulette <- function(Population, Locations) {
   ranks <- matrix(0, nrow(Population), 3)
   
@@ -115,6 +112,7 @@ sel_roulette <- function(Population, Locations) {
   
 }
 
+##Get a parent from the Rank Selection
 rank_selection <- function(rank_mat, r_max) { #rmax -> either rank or roulette max
   to_populate <- sample(1:r_max, 1) #take a sample within the range of the ranks 1:summation(population_size)
   rank_d <- 0
@@ -126,7 +124,8 @@ rank_selection <- function(rank_mat, r_max) { #rmax -> either rank or roulette m
   }
 }
 
-roul_selection <- function(rank_mat, r_max) { #rmax -> either rank or roulette max
+##Get a parent from the Roulette Selection
+roul_selection <- function(rank_mat, r_max) {
   #to_populate <- sample(1:r_max, 1) #take a sample within the range of the ranks 1:summation(population_size)
   to_populate <- round(runif(1,1,r_max), 5)
   rank_d <- 0
@@ -141,22 +140,72 @@ roul_selection <- function(rank_mat, r_max) { #rmax -> either rank or roulette m
 # RANK TESTING CODE
 generation_rank <- sel_rank(Population, loc_scatter)
 print(generation_rank)
-for(i in 1:100) {
-  print(rank_selection(generation_rank, sum(generation_rank[, 1])))
+rank_parent_sel <- c()
+for(i in 1:200) {
+  rank_parent_sel[i] <- rank_selection(generation_rank, sum(generation_rank[, 1]))
 }
-rank_selection(generation_rank, sum(generation_rank[, 1]))
+hist(rank_parent_sel, 100)
 
 # ROULETTE TESTING CODE
 generation_roul <- sel_roulette(Population, loc_scatter)
 print(generation_roul)
 print(sum(generation_roul[, 3]))
-for(i in 1:100) {
-  print(roul_selection(generation_roul, sum(generation_roul[, 3])))
+roul_parent_sel <- c()
+for(i in 1:200) {
+  roul_parent_sel[i] <- roul_selection(generation_roul, sum(generation_roul[, 3]))
 }
-roul_selection(generation_roul, sum(generation_roul[, 3]))
-
+hist(roul_parent_sel, 100)
 
 ##---- Crossover----
+## Uniform Crossover
+uniform <- function(P1, P2) {
+  C1 <- c()
+  C2 <- c()
+  for(i in 1:length(P1)) {
+    m <- sample(0:1, 1) #represents the mask bit at this position
+    if(m == 0) {
+      C1[i] <- P1[i]
+      C2[i] <- P2[i]
+    } else {
+      C1[i] <- P2[i]
+      C2[i] <- P1[i]
+    }
+  }
+  #Needs fixup
+  if(sum(C1 == 1) > p) {
+    medianPos <- which(C1 == 1)
+    medianPos <- sample(medianPos, p, replace = FALSE) #randomly select p medians to keep
+    lapply(C1, replace, TRUE, 0)
+    for(m in medianPos) {
+      C1[medianPos] <- 1
+    }
+  } else if(sum(C1 == 1) < p) {
+    while(sum(C1 == 1) < p) {
+      C1[sample(1:length(C1), 1)] <- 1 #randomly select positions and set them to 1 -- Could in theory take some number of them from P1
+    }
+  }
+  
+  
+  if(sum(C2 == 1) > p) {
+    medianPos <- which(C2 == 1)
+    medianPos <- sample(medianPos, p, replace = FALSE)
+    lapply(C2, replace, TRUE, 0)
+    for(m in medianPos) {
+      C2[medianPos] <- 1
+    }
+  } else if(sum(C2 == 1) < p) {
+    while(sum(C2 == 1) < p) {
+      C2[sample(1:length(C2), 1)] <- 1
+    }
+  }
+  
+  return(c(C1, C2))
+}
+
+# Uniform Testing Code -> uses Rank Selection
+u_children <- uniform(Population[rank_parent_sel[1], ], Population[rank_parent_sel[2], ])
+print(u_children[1])
+print(u_children[2])
 
 ##---- Mutation----
 
