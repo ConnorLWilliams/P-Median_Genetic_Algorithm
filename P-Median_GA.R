@@ -1,5 +1,3 @@
-setwd("~/GitHub/P-Median_Genetic_Algorithm")
-
 ##---- Data input-----
 #For Completely Rankdom Data
 locations <- 100 #number of total locations
@@ -41,9 +39,9 @@ generate_population <- function(population_size, p, locations) {
   return(Population)
 }
 
-pop_size <- 100
-Population <- generate_population(pop_size, p, locations)
-print(Population)
+# pop_size <- 100
+# Population <- generate_population(pop_size, p, locations)
+# print(Population)
 
 ##---- Plot Connections----
 
@@ -167,24 +165,24 @@ roul_selection <- function(rank_mat, r_max) {
   }
 }
 
-# RANK TESTING CODE
-generation_rank <- sel_rank(Population, loc_scatter)
-print(generation_rank)
-rank_parent_sel <- c()
-for(i in 1:200) {
-  rank_parent_sel[i] <- rank_selection(generation_rank, sum(generation_rank[, 1]))
-}
-hist(rank_parent_sel, 100)
-
-# ROULETTE TESTING CODE
-generation_roul <- sel_roulette(Population, loc_scatter)
-print(generation_roul)
-print(sum(generation_roul[, 3]))
-roul_parent_sel <- c()
-for(i in 1:200) {
-  roul_parent_sel[i] <- roul_selection(generation_roul, sum(generation_roul[, 3]))
-}
-hist(roul_parent_sel, 100)
+# # RANK TESTING CODE
+# generation_rank <- sel_rank(Population, loc_scatter)
+# print(generation_rank)
+# rank_parent_sel <- c()
+# for(i in 1:200) {
+#   rank_parent_sel[i] <- rank_selection(generation_rank, sum(generation_rank[, 1]))
+# }
+# hist(rank_parent_sel, 100)
+# 
+# # ROULETTE TESTING CODE
+# generation_roul <- sel_roulette(Population, loc_scatter)
+# print(generation_roul)
+# print(sum(generation_roul[, 3]))
+# roul_parent_sel <- c()
+# for(i in 1:200) {
+#   roul_parent_sel[i] <- roul_selection(generation_roul, sum(generation_roul[, 3]))
+# }
+# hist(roul_parent_sel, 100)
 
 ##---- Crossover----
 ## Uniform Crossover
@@ -279,19 +277,19 @@ two_point <- function(P1, P2) {
   return(list(C1, C2))
 }
 
-# Uniform Testing Code -> uses Rank Selection
-u_children <- uniform(Population[rank_parent_sel[1], ], Population[rank_parent_sel[2], ])
-child1 <- as.vector(unlist(u_children[1]))
-child2 <- as.vector(unlist(u_children[2]))
-print(sum(child1 == 1))
-print(sum(child2 == 1))
-
-#Two-Point Testing Code -> uses Rank selection
-tp_children <- two_point(Population[rank_parent_sel[1], ], Population[rank_parent_sel[2], ])
-child1 <- as.vector(unlist(tp_children[1]))
-child2 <- as.vector(unlist(tp_children[2]))
-print(sum(child1 == 1))
-print(sum(child2 == 1))
+# # Uniform Testing Code -> uses Rank Selection
+# u_children <- uniform(Population[rank_parent_sel[1], ], Population[rank_parent_sel[2], ])
+# child1 <- as.vector(unlist(u_children[1]))
+# child2 <- as.vector(unlist(u_children[2]))
+# print(sum(child1 == 1))
+# print(sum(child2 == 1))
+# 
+# #Two-Point Testing Code -> uses Rank selection
+# tp_children <- two_point(Population[rank_parent_sel[1], ], Population[rank_parent_sel[2], ])
+# child1 <- as.vector(unlist(tp_children[1]))
+# child2 <- as.vector(unlist(tp_children[2]))
+# print(sum(child1 == 1))
+# print(sum(child2 == 1))
 
 ##---- Mutation----
 ## Bit-Flip Mutation
@@ -318,10 +316,10 @@ n_bit_flip <- function(Chromosome, p) {
   return(Chromosome)
 }
 
-#Bit-Flip Testing Code
-print(Population[1, ])
-print(bit_flip(Population[1, ]))
-
-#N-Bit-Flip Testing Code
-print(Population[1, ])
-print(n_bit_flip(Population[1, ], p))
+# #Bit-Flip Testing Code
+# print(Population[1, ])
+# print(bit_flip(Population[1, ]))
+# 
+# #N-Bit-Flip Testing Code
+# print(Population[1, ])
+# print(n_bit_flip(Population[1, ], p))
