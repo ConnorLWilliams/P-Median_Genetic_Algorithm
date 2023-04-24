@@ -79,8 +79,28 @@ get_dists <- function(locations, Chromosome, pop_size) { ##Distance function tha
 #   Y = c(1, 1, 1, 1))
 # test_Pop <- c(0, 0, 1, 1)
 
-# print(get_dists(loc_scatter, Population[100, ], pop_size))
+#print(get_dists(loc_scatter, Population[100, ], pop_size))
 # print(get_dists(test_scatter, test_Pop, 4))
+
+##---- New Distance Function----
+new_get_dists <- function(locations, Chromosome, pop_size) {
+  stations <- which(Chromosome == 0)
+  medians <- which(Chromosome == 1)
+  sum <- 0
+  
+  for(s in stations) {
+    choice <- sqrt((locations[s, 1] - locations[medians[1],1])^2 + (locations[s, 2] - locations[medians[1],2])^2) #find the distance between the first station and median
+    for(m in medians) {
+      choice <- min(choice, sqrt((locations[s, 1] - locations[m,1])^2 + (locations[s, 2] - locations[m,2])^2))
+    }
+    sum <- sum + choice #Sum distances
+  }
+  
+  return(sum)
+}
+
+#print(new_get_dists(loc_scatter, Population[100, ], pop_size))
+#print(new_get_dists(test_scatter, test_Pop, 4))
 
 ##---- Selection----
 ##Rank Selection
@@ -88,7 +108,7 @@ sel_rank <- function(Population, Locations) {
   ranks <- matrix(0, nrow(Population), 2)
   
   for(Chrom in 1:nrow(Population)) {
-    fitness <- get_dists(Locations, Population[Chrom, ], nrow(Population))
+    fitness <- new_get_dists(Locations, Population[Chrom, ], nrow(Population))
     ranks[Chrom, 1] <- Chrom
     ranks[Chrom, 2] <- fitness
   }
@@ -104,7 +124,7 @@ sel_roulette <- function(Population, Locations) {
   ranks <- matrix(0, nrow(Population), 3)
   
   for(Chrom in 1:nrow(Population)) {
-    fitness <- get_dists(Locations, Population[Chrom, ], nrow(Population))
+    fitness <- new_get_dists(Locations, Population[Chrom, ], nrow(Population))
     ranks[Chrom, 1] <- Chrom
     ranks[Chrom, 2] <- fitness
   }
@@ -277,7 +297,7 @@ print(sum(child2 == 1))
 ## Bit-Flip Mutation
 bit_flip <- function(Chromosome) {
   medianPos <- which(Chromosome == 1)
-  new_station <- sample(medianPos, 1, replace = FALSE) #randomly select p medians to change
+  new_station <- sample(medianPos, 1, replace = FALSE) #randomly select p median to change
   station <- which(Chromosome == 0)
   new_median <- sample(station, 1, replace = FALSE) #randomly select station to make median
   Chromosome[new_median] <- 1
@@ -285,6 +305,23 @@ bit_flip <- function(Chromosome) {
   return(Chromosome)
 }
 
+n_bit_flip <- function(Chromosome, p) {
+  medianPos <- which(Chromosome == 1)
+  n_bits <- sample(1:(p*0.3), 1) #randomly decide how much to mutate
+  new_stations <- sample(medianPos, n_bits, replace = FALSE) #randomly select p medians to change
+  stations <- which(Chromosome == 0)
+  new_medians <- sample(stations, n_bits, replace = FALSE) #randomly select station to make median
+  for(i in 1:n_bits) {
+    Chromosome[new_medians[i]] <- 1
+    Chromosome[new_stations[i]] <- 0
+  }
+  return(Chromosome)
+}
+
 #Bit-Flip Testing Code
 print(Population[1, ])
 print(bit_flip(Population[1, ]))
+
+#N-Bit-Flip Testing Code
+print(Population[1, ])
+print(n_bit_flip(Population[1, ], p))

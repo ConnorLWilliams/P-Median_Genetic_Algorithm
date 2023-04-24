@@ -1,5 +1,6 @@
 library(ggplot2)
 
+##---- Setup----
 locations <- 100 #number of total locations
 p <- 10 #number of stations to be used to calculate medians
 radius <- 3 #Used for Toy Datasets
@@ -19,6 +20,7 @@ newPopulation <- Population
 
 fit_over_time <- c()
 
+##---- Rank Uniform Bit-Flip----
 for(i in 1:maxEpochs) { #Run for a maximum number of Epochs
   #Selection Matrix
   generation_rank <- sel_rank(Population, loc_scatter) #make ranking and assign ranks
@@ -54,7 +56,272 @@ for(i in 1:maxEpochs) { #Run for a maximum number of Epochs
   #print(length(which(bestChrom1 == 1)))
   
   Population <- newPopulation
+}
+
+##---- Rank Two-Point Bit-Flip----
+for(i in 1:maxEpochs) { #Run for a maximum number of Epochs
+  #Selection Matrix
+  generation_rank <- sel_rank(Population, loc_scatter) #make ranking and assign ranks
+  bestChrom1 <- Population[generation_rank[100, 1], ] #elite1
+  bestChrom2 <- Population[generation_rank[99, 1], ] #elite2
   
+  fit_over_time[i] <- generation_rank[100, 2]
+  
+  for(sel in 1:pop_size/2) { #Create next generation using crossovers (100% crossover rate)
+    #Selection
+    p1 <- rank_selection(generation_rank, sum(generation_rank[, 1]))
+    p2 <- rank_selection(generation_rank, sum(generation_rank[, 1]))
+    
+    #Crossover
+    u_children <- two_point(Population[p1, ], Population[p2, ])
+    child1 <- as.vector(unlist(u_children[1]))
+    child2 <- as.vector(unlist(u_children[2]))
+    newPopulation[sel, ] <- child1
+    newPopulation[pop_size/2 + sel, ] <- child2
+  }
+  
+  #Mutation
+  toMutate <- sample(1:pop_size, pop_size * 0.02, replace = FALSE) #Randomly select 2% of the population to mutate
+  for(m in toMutate) {
+    newPopulation[m, ] <- bit_flip(newPopulation[m, ])
+  }
+  
+  #Elitism
+  tempRankings <- sel_rank(newPopulation, loc_scatter)
+  newPopulation[tempRankings[1, 1], ] <- bestChrom1
+  newPopulation[tempRankings[2, 1], ] <- bestChrom2
+  
+  #print(length(which(bestChrom1 == 1)))
+  
+  Population <- newPopulation
+}
+
+##---- Roulette Uniform Bit-Flip----
+for(i in 1:maxEpochs) { #Run for a maximum number of Epochs
+  #Selection Matrix
+  generation_rank <- sel_roulette(Population, loc_scatter) #make ranking and assign ranks
+  bestChrom1 <- Population[generation_rank[100, 1], ] #elite1
+  bestChrom2 <- Population[generation_rank[99, 1], ] #elite2
+  
+  fit_over_time[i] <- generation_rank[100, 2]
+  
+  for(sel in 1:pop_size/2) { #Create next generation using crossovers (100% crossover rate)
+    #Selection
+    p1 <- roul_selection(generation_rank, sum(generation_rank[, 1]))
+    p2 <- roul_selection(generation_rank, sum(generation_rank[, 1]))
+    
+    #Crossover
+    u_children <- uniform(Population[p1, ], Population[p2, ])
+    child1 <- as.vector(unlist(u_children[1]))
+    child2 <- as.vector(unlist(u_children[2]))
+    newPopulation[sel, ] <- child1
+    newPopulation[pop_size/2 + sel, ] <- child2
+  }
+  
+  #Mutation
+  toMutate <- sample(1:pop_size, pop_size * 0.02, replace = FALSE) #Randomly select 2% of the population to mutate
+  for(m in toMutate) {
+    newPopulation[m, ] <- bit_flip(newPopulation[m, ])
+  }
+  
+  #Elitism
+  tempRankings <- sel_rank(newPopulation, loc_scatter)
+  newPopulation[tempRankings[1, 1], ] <- bestChrom1
+  newPopulation[tempRankings[2, 1], ] <- bestChrom2
+  
+  #print(length(which(bestChrom1 == 1)))
+  
+  Population <- newPopulation
+}
+
+##---- Roulette Two-Point Bit-Flip----
+for(i in 1:maxEpochs) { #Run for a maximum number of Epochs
+  #Selection Matrix
+  generation_rank <- sel_roulette(Population, loc_scatter) #make ranking and assign ranks
+  bestChrom1 <- Population[generation_rank[100, 1], ] #elite1
+  bestChrom2 <- Population[generation_rank[99, 1], ] #elite2
+  
+  fit_over_time[i] <- generation_rank[100, 2]
+  
+  for(sel in 1:pop_size/2) { #Create next generation using crossovers (100% crossover rate)
+    #Selection
+    p1 <- roul_selection(generation_rank, sum(generation_rank[, 1]))
+    p2 <- roul_selection(generation_rank, sum(generation_rank[, 1]))
+    
+    #Crossover
+    u_children <- two_point(Population[p1, ], Population[p2, ])
+    child1 <- as.vector(unlist(u_children[1]))
+    child2 <- as.vector(unlist(u_children[2]))
+    newPopulation[sel, ] <- child1
+    newPopulation[pop_size/2 + sel, ] <- child2
+  }
+  
+  #Mutation
+  toMutate <- sample(1:pop_size, pop_size * 0.02, replace = FALSE) #Randomly select 2% of the population to mutate
+  for(m in toMutate) {
+    newPopulation[m, ] <- bit_flip(newPopulation[m, ])
+  }
+  
+  #Elitism
+  tempRankings <- sel_rank(newPopulation, loc_scatter)
+  newPopulation[tempRankings[1, 1], ] <- bestChrom1
+  newPopulation[tempRankings[2, 1], ] <- bestChrom2
+  
+  #print(length(which(bestChrom1 == 1)))
+  
+  Population <- newPopulation
+}
+
+##---- Rank Uniform N-Bit-Flip----
+for(i in 1:maxEpochs) { #Run for a maximum number of Epochs
+  #Selection Matrix
+  generation_rank <- sel_rank(Population, loc_scatter) #make ranking and assign ranks
+  bestChrom1 <- Population[generation_rank[100, 1], ] #elite1
+  bestChrom2 <- Population[generation_rank[99, 1], ] #elite2
+  
+  fit_over_time[i] <- generation_rank[100, 2]
+  
+  for(sel in 1:pop_size/2) { #Create next generation using crossovers (100% crossover rate)
+    #Selection
+    p1 <- rank_selection(generation_rank, sum(generation_rank[, 1]))
+    p2 <- rank_selection(generation_rank, sum(generation_rank[, 1]))
+    
+    #Crossover
+    u_children <- uniform(Population[p1, ], Population[p2, ])
+    child1 <- as.vector(unlist(u_children[1]))
+    child2 <- as.vector(unlist(u_children[2]))
+    newPopulation[sel, ] <- child1
+    newPopulation[pop_size/2 + sel, ] <- child2
+  }
+  
+  #Mutation
+  toMutate <- sample(1:pop_size, pop_size * 0.02, replace = FALSE) #Randomly select 2% of the population to mutate
+  for(m in toMutate) {
+    newPopulation[m, ] <- n_bit_flip(newPopulation[m, ], p)
+  }
+  
+  #Elitism
+  tempRankings <- sel_rank(newPopulation, loc_scatter)
+  newPopulation[tempRankings[1, 1], ] <- bestChrom1
+  newPopulation[tempRankings[2, 1], ] <- bestChrom2
+  
+  #print(length(which(bestChrom1 == 1)))
+  
+  Population <- newPopulation
+}
+
+##---- Rank Two-Point N-Bit-Flip----
+for(i in 1:maxEpochs) { #Run for a maximum number of Epochs
+  #Selection Matrix
+  generation_rank <- sel_rank(Population, loc_scatter) #make ranking and assign ranks
+  bestChrom1 <- Population[generation_rank[100, 1], ] #elite1
+  bestChrom2 <- Population[generation_rank[99, 1], ] #elite2
+  
+  fit_over_time[i] <- generation_rank[100, 2]
+  
+  for(sel in 1:pop_size/2) { #Create next generation using crossovers (100% crossover rate)
+    #Selection
+    p1 <- rank_selection(generation_rank, sum(generation_rank[, 1]))
+    p2 <- rank_selection(generation_rank, sum(generation_rank[, 1]))
+    
+    #Crossover
+    u_children <- two_point(Population[p1, ], Population[p2, ])
+    child1 <- as.vector(unlist(u_children[1]))
+    child2 <- as.vector(unlist(u_children[2]))
+    newPopulation[sel, ] <- child1
+    newPopulation[pop_size/2 + sel, ] <- child2
+  }
+  
+  #Mutation
+  toMutate <- sample(1:pop_size, pop_size * 0.02, replace = FALSE) #Randomly select 2% of the population to mutate
+  for(m in toMutate) {
+    newPopulation[m, ] <- n_bit_flip(newPopulation[m, ], p)
+  }
+  
+  #Elitism
+  tempRankings <- sel_rank(newPopulation, loc_scatter)
+  newPopulation[tempRankings[1, 1], ] <- bestChrom1
+  newPopulation[tempRankings[2, 1], ] <- bestChrom2
+  
+  #print(length(which(bestChrom1 == 1)))
+  
+  Population <- newPopulation
+}
+
+##---- Roulette Uniform N-Bit-Flip----
+for(i in 1:maxEpochs) { #Run for a maximum number of Epochs
+  #Selection Matrix
+  generation_rank <- sel_roulette(Population, loc_scatter) #make ranking and assign ranks
+  bestChrom1 <- Population[generation_rank[100, 1], ] #elite1
+  bestChrom2 <- Population[generation_rank[99, 1], ] #elite2
+  
+  fit_over_time[i] <- generation_rank[100, 2]
+  
+  for(sel in 1:pop_size/2) { #Create next generation using crossovers (100% crossover rate)
+    #Selection
+    p1 <- roul_selection(generation_rank, sum(generation_rank[, 1]))
+    p2 <- roul_selection(generation_rank, sum(generation_rank[, 1]))
+    
+    #Crossover
+    u_children <- uniform(Population[p1, ], Population[p2, ])
+    child1 <- as.vector(unlist(u_children[1]))
+    child2 <- as.vector(unlist(u_children[2]))
+    newPopulation[sel, ] <- child1
+    newPopulation[pop_size/2 + sel, ] <- child2
+  }
+  
+  #Mutation
+  toMutate <- sample(1:pop_size, pop_size * 0.02, replace = FALSE) #Randomly select 2% of the population to mutate
+  for(m in toMutate) {
+    newPopulation[m, ] <- n_bit_flip(newPopulation[m, ], p)
+  }
+  
+  #Elitism
+  tempRankings <- sel_rank(newPopulation, loc_scatter)
+  newPopulation[tempRankings[1, 1], ] <- bestChrom1
+  newPopulation[tempRankings[2, 1], ] <- bestChrom2
+  
+  #print(length(which(bestChrom1 == 1)))
+  
+  Population <- newPopulation
+}
+
+##---- Roulette Two-Point N-Bit-Flip----
+for(i in 1:maxEpochs) { #Run for a maximum number of Epochs
+  #Selection Matrix
+  generation_rank <- sel_roulette(Population, loc_scatter) #make ranking and assign ranks
+  bestChrom1 <- Population[generation_rank[100, 1], ] #elite1
+  bestChrom2 <- Population[generation_rank[99, 1], ] #elite2
+  
+  fit_over_time[i] <- generation_rank[100, 2]
+  
+  for(sel in 1:pop_size/2) { #Create next generation using crossovers (100% crossover rate)
+    #Selection
+    p1 <- roul_selection(generation_rank, sum(generation_rank[, 1]))
+    p2 <- roul_selection(generation_rank, sum(generation_rank[, 1]))
+    
+    #Crossover
+    u_children <- two_point(Population[p1, ], Population[p2, ])
+    child1 <- as.vector(unlist(u_children[1]))
+    child2 <- as.vector(unlist(u_children[2]))
+    newPopulation[sel, ] <- child1
+    newPopulation[pop_size/2 + sel, ] <- child2
+  }
+  
+  #Mutation
+  toMutate <- sample(1:pop_size, pop_size * 0.02, replace = FALSE) #Randomly select 2% of the population to mutate
+  for(m in toMutate) {
+    newPopulation[m, ] <- n_bit_flip(newPopulation[m, ], p)
+  }
+  
+  #Elitism
+  tempRankings <- sel_rank(newPopulation, loc_scatter)
+  newPopulation[tempRankings[1, 1], ] <- bestChrom1
+  newPopulation[tempRankings[2, 1], ] <- bestChrom2
+  
+  #print(length(which(bestChrom1 == 1)))
+  
+  Population <- newPopulation
 }
 
 ##---- Data Vis----
