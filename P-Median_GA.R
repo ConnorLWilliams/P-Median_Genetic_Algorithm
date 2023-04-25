@@ -1,12 +1,12 @@
 ##---- Data input-----
 #For Completely Rankdom Data
-locations <- 100 #number of total locations
-p <- 10 #number of stations to be used to calculate medians
-
-loc_scatter = data.frame(
-  x = rnorm(100, mean = 50, sd=50),
-  y = rnorm(100, mean = 50, sd=50)
-)
+# locations <- 100 #number of total locations
+# p <- 10 #number of stations to be used to calculate medians
+# 
+# loc_scatter = data.frame(
+#   x = rnorm(100, mean = 50, sd=50),
+#   y = rnorm(100, mean = 50, sd=50)
+# )
 
 ##---- Toy Data----
 toy_data <- function(radius, p, num_locations) {

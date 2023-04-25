@@ -1,12 +1,12 @@
 library(ggplot2)
 
 ##---- Setup----
-locations <- 100 #number of total locations
-p <- 10 #number of stations to be used to calculate medians
-radius <- 3 #Used for Toy Datasets
-
-pop_size <- 1
-Population <- generate_population(pop_size, p, locations)
+# locations <- 100 #number of total locations
+# p <- 10 #number of stations to be used to calculate medians
+# radius <- 3 #Used for Toy Datasets
+# 
+# pop_size <- 1
+# Population <- generate_population(pop_size, p, locations)
 
 # loc_scatter <- toy_data(radius = 3, p = p, num_locations = locations)
 # plot(loc_scatter)
