@@ -196,3 +196,5 @@ write.csv(Best100L10P, file = "FitnessFor100L10P_PracticalData.csv")
 write.csv(Location100L10P, file = "LocationsFor100L10P_PracticalData.csv")
 
 timeused <- proc.time() - timing
+
+print(timeused)
