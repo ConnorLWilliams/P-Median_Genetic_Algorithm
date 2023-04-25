@@ -186,7 +186,7 @@ ggsave("FoolishHillClimbingNBitFlipFitnessCurve100L10PPractical.pdf")
 Data_Vis_Chrom(bestChrom)
 ggsave("FoolishHillClimbingNBitFlipChromPlot100L10PPractical.pdf")
 
-##---- Data Evaluation----
+##---- Data Evaluation----r
 Best100L10P <- data.frame(
   names = c("Rank Uniform Bit-Flip", "Rank Two-Point Bit-Flip", "Roulette Uniform Bit-Flip", "Roulette Two-Point Bit-Flip", "Rank Uniform N-Bit-Flip", "Rank Two-Point N-Bit-Flip", "Roulette Uniform N-Bit-Flip", "Roulette Two-Point N-Bit-Flip", "Simulated Annealing Bit-Flip", "Simulated Annealing N-Bit Flip", "Foolish Hill Climbing Bit-Flip", "Foolish Hill Climbing N-Bit-Flip"),
   fitnesses = c(RaUBF_best_fit, RaTPBF_best_fit, RoUBF_best_fit, RoTPBF_best_fit, RaUNBF_best_fit, RaTPNBF_best_fit, RoUNBF_best_fit, RoTPNBF_best_fit, SABF_best_fit, SANBF_best_fit, FHCBF_best_fit, FHCNBF_best_fit)
