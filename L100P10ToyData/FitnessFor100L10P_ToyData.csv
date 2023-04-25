@@ -1,0 +1,13 @@
+"","names","fitnesses"
+"1","Rank Uniform Bit-Flip",335.59550887273
+"2","Rank Two-Point Bit-Flip",354.376702288284
+"3","Roulette Uniform Bit-Flip",344.316329716952
+"4","Roulette Two-Point Bit-Flip",337.94121334589
+"5","Rank Uniform N-Bit-Flip",335.842417949621
+"6","Rank Two-Point N-Bit-Flip",344.842089120077
+"7","Roulette Uniform N-Bit-Flip",340.793589520146
+"8","Roulette Two-Point N-Bit-Flip",365.253227081118
+"9","Simulated Annealing Bit-Flip",341.242813739043
+"10","Simulated Annealing N-Bit Flip",362.640669988692
+"11","Foolish Hill Climbing Bit-Flip",338.329983311768
+"12","Foolish Hill Climbing N-Bit-Flip",354.853686048209
