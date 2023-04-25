@@ -1,8 +1,8 @@
 library(ggplot2)
 
 ##---- Setup----
-locations <- 50 #number of total locations
-p <- 5 #number of stations to be used to calculate medians
+locations <- 100 #number of total locations
+p <- 10 #number of stations to be used to calculate medians
 radius <- 3 #Used for Practical Datasets
 
 pop_size <- 100
@@ -30,9 +30,9 @@ bestChrom <- RaUBF_Pop[ranks[pop_size, 1], ]
 RaUBF_best_fit <- ranks[pop_size, 2]
 
 Data_Vis_Fit(RaUBF_Fit)
-ggsave("RankUniformBitFlipFitnessCurve50L5PPractical.pdf")
+ggsave("RankUniformBitFlipFitnessCurve100L10PPractical.pdf")
 Data_Vis_Chrom(bestChrom)
-ggsave("RankUniformBitFlipChromPlot50L5PPractical.pdf")
+ggsave("RankUniformBitFlipChromPlot100L10PPractical.pdf")
 
 ##---- Rank Two-Point Bit-Flip----
 RaTPBF <- RankTwoPointBitFlip(maxEpochs = maxEpochs, Population = innitial_population, loc_scatter = loc_scatter, pop_size = pop_size)
@@ -44,9 +44,9 @@ bestChrom <- RaTPBF_Pop[ranks[pop_size, 1], ]
 RaTPBF_best_fit <- ranks[pop_size, 2]
 
 Data_Vis_Fit(RaTPBF_Fit)
-ggsave("RankTwoPointBitFlipFitnessCurve50L5PPractical.pdf")
+ggsave("RankTwoPointBitFlipFitnessCurve100L10PPractical.pdf")
 Data_Vis_Chrom(bestChrom)
-ggsave("RankTwoPointBitFlipChromPlot50L5PPractical.pdf")
+ggsave("RankTwoPointBitFlipChromPlot100L10PPractical.pdf")
 
 ##---- Roulette Uniform Bit-Flip----
 RoUBF <- RouletteUniformBitFlip(maxEpochs = maxEpochs, Population = innitial_population, loc_scatter = loc_scatter, pop_size = pop_size)
@@ -58,9 +58,9 @@ bestChrom <- RoUBF_Pop[ranks[pop_size, 1], ]
 RoUBF_best_fit <- ranks[pop_size, 2]
 
 Data_Vis_Fit(RoUBF_Fit)
-ggsave("RouletteUniformBitFlipFitnessCurve50L5PPractical.pdf")
+ggsave("RouletteUniformBitFlipFitnessCurve100L10PPractical.pdf")
 Data_Vis_Chrom(bestChrom)
-ggsave("RouletteUniformBitFlipChromPlot50L5PPractical.pdf")
+ggsave("RouletteUniformBitFlipChromPlot100L10PPractical.pdf")
 
 ##---- Roulette Two-Point Bit-Flip----
 RoTPBF <- RouletteTwoPointBitFlip(maxEpochs = maxEpochs, Population = innitial_population, loc_scatter = loc_scatter, pop_size = pop_size)
@@ -72,9 +72,9 @@ bestChrom <- RoTPBF_Pop[ranks[pop_size, 1], ]
 RoTPBF_best_fit <- ranks[pop_size, 2]
 
 Data_Vis_Fit(RoTPBF_Fit)
-ggsave("RouletteTwoPointBitFlipFitnessCurve50L5PPractical.pdf")
+ggsave("RouletteTwoPointBitFlipFitnessCurve100L10PPractical.pdf")
 Data_Vis_Chrom(bestChrom)
-ggsave("RouletteTwoPointBitFlipChromPlot50L5PPractical.pdf")
+ggsave("RouletteTwoPointBitFlipChromPlot100L10PPractical.pdf")
 
 ##---- Rank Uniform N-Bit-Flip----
 RaUNBF <- RankUniformNBitFlip(maxEpochs = maxEpochs, Population = innitial_population, loc_scatter = loc_scatter, pop_size = pop_size)
@@ -86,9 +86,9 @@ bestChrom <- RaUNBF_Pop[ranks[pop_size, 1], ]
 RaUNBF_best_fit <- ranks[pop_size, 2]
 
 Data_Vis_Fit(RaUNBF_Fit)
-ggsave("RankUniformNBitFlipFitnessCurve50L5PPractical.pdf")
+ggsave("RankUniformNBitFlipFitnessCurve100L10PPractical.pdf")
 Data_Vis_Chrom(bestChrom)
-ggsave("RankUniformNBitFlipChromPlot50L5PPractical.pdf")
+ggsave("RankUniformNBitFlipChromPlot100L10PPractical.pdf")
 
 
 ##---- Rank Two-Point N-Bit-Flip----
@@ -101,9 +101,9 @@ bestChrom <- RaTPNBF_Pop[ranks[pop_size, 1], ]
 RaTPNBF_best_fit <- ranks[pop_size, 2]
 
 Data_Vis_Fit(RaTPNBF_Fit)
-ggsave("RankTwoPointNBitFlipFitnessCurve50L5PPractical.pdf")
+ggsave("RankTwoPointNBitFlipFitnessCurve100L10PPractical.pdf")
 Data_Vis_Chrom(bestChrom)
-ggsave("RankTwoPointNBitFlipChromPlot50L5PPractical.pdf")
+ggsave("RankTwoPointNBitFlipChromPlot100L10PPractical.pdf")
 
 
 ##---- Roulette Uniform N-Bit-Flip----
@@ -116,9 +116,9 @@ bestChrom <- RoUNBF_Pop[ranks[pop_size, 1], ]
 RoUNBF_best_fit <- ranks[pop_size, 2]
 
 Data_Vis_Fit(RoUNBF_Fit)
-ggsave("RouletteUniformNBitFlipFitnessCurve50L5PPractical.pdf")
+ggsave("RouletteUniformNBitFlipFitnessCurve100L10PPractical.pdf")
 Data_Vis_Chrom(bestChrom)
-ggsave("RouletteUniformNBitFlipChromPlot50L5PPractical.pdf")
+ggsave("RouletteUniformNBitFlipChromPlot100L10PPractical.pdf")
 
 
 ##---- Roulette Two-Point N-Bit-Flip----
@@ -131,9 +131,9 @@ bestChrom <- RoTPNBF_Pop[ranks[pop_size, 1], ]
 RoTPNBF_best_fit <- ranks[pop_size, 2]
 
 Data_Vis_Fit(RoTPNBF_Fit)
-ggsave("RouletteTwoPointNBitFlipFitnessCurve50L5PPractical.pdf")
+ggsave("RouletteTwoPointNBitFlipFitnessCurve100L10PPractical.pdf")
 Data_Vis_Chrom(bestChrom)
-ggsave("RouletteTwoPointNBitFlipChromPlot50L5PPractical.pdf")
+ggsave("RouletteTwoPointNBitFlipChromPlot100L10PPractical.pdf")
 
 ##---- SA/FHC SetUp----
 sa_innitial_population <- generate_population(1, p, locations)
@@ -146,9 +146,9 @@ SABF_Fit <- as.vector(unlist(SimAnnBF[[2]]))
 SABF_best_fit <- new_get_dists(locations = loc_scatter, Chromosome = bestChrom, pop_size = 1)
 
 Data_Vis_Fit(SABF_Fit)
-ggsave("SimulatedAnnealingBitFlipFitnessCurve50L5PPractical.pdf")
+ggsave("SimulatedAnnealingBitFlipFitnessCurve100L10PPractical.pdf")
 Data_Vis_Chrom(bestChrom)
-ggsave("SimulatedAnnealingBitFlipChromPlot50L5PPractical.pdf")
+ggsave("SimulatedAnnealingBitFlipChromPlot100L10PPractical.pdf")
 
 ##---- Simulated Annealing N Bit Flip----
 SimAnnNBF <- SANBF(Population = sa_innitial_population, loc_scatter = loc_scatter, pop_size = 1)
@@ -158,9 +158,9 @@ SANBF_Fit <- as.vector(unlist(SimAnnNBF[[2]]))
 SANBF_best_fit <- new_get_dists(locations = loc_scatter, Chromosome = bestChrom, pop_size = 1)
 
 Data_Vis_Fit(SANBF_Fit)
-ggsave("SimulatedAnnealingNBitFlipFitnessCurve50L5PPractical.pdf")
+ggsave("SimulatedAnnealingNBitFlipFitnessCurve100L10PPractical.pdf")
 Data_Vis_Chrom(bestChrom)
-ggsave("SimulatedAnnealingNBitFlipChromPlot50L5PPractical.pdf")
+ggsave("SimulatedAnnealingNBitFlipChromPlot100L10PPractical.pdf")
 
 ##----  FHC Bit Flip----
 FHCBF <- FoolishHillClimbBitFlip(Population = sa_innitial_population, loc_scatter = loc_scatter, pop_size = 1)
@@ -170,9 +170,9 @@ FHCBF_Fit <- as.vector(unlist(FHCBF[[2]]))
 FHCBF_best_fit <- new_get_dists(locations = loc_scatter, Chromosome = bestChrom, pop_size = 1)
 
 Data_Vis_Fit(FHCBF_Fit)
-ggsave("FoolishHillClimbingBitFlipFitnessCurve50L5PPractical.pdf")
+ggsave("FoolishHillClimbingBitFlipFitnessCurve100L10PPractical.pdf")
 Data_Vis_Chrom(bestChrom)
-ggsave("FoolishHillClimbingBitFlipChromPlot50L5PPractical.pdf")
+ggsave("FoolishHillClimbingBitFlipChromPlot100L10PPractical.pdf")
 
 ##----  FHC N Bit Flip----
 FHCNBF <- FoolishHillClimbNBitFlip(Population = sa_innitial_population, loc_scatter = loc_scatter, pop_size = 1)
@@ -182,17 +182,17 @@ FHCNBF_Fit <- as.vector(unlist(FHCNBF[[2]]))
 FHCNBF_best_fit <- new_get_dists(locations = loc_scatter, Chromosome = bestChrom, pop_size = 1)
 
 Data_Vis_Fit(FHCNBF_Fit)
-ggsave("FoolishHillClimbingNBitFlipFitnessCurve50L5PPractical.pdf")
+ggsave("FoolishHillClimbingNBitFlipFitnessCurve100L10PPractical.pdf")
 Data_Vis_Chrom(bestChrom)
-ggsave("FoolishHillClimbingNBitFlipChromPlot50L5PPractical.pdf")
+ggsave("FoolishHillClimbingNBitFlipChromPlot100L10PPractical.pdf")
 
 ##---- Data Evaluation----
-Best50L5P <- data.frame(
+Best100L10P <- data.frame(
   names = c("Rank Uniform Bit-Flip", "Rank Two-Point Bit-Flip", "Roulette Uniform Bit-Flip", "Roulette Two-Point Bit-Flip", "Rank Uniform N-Bit-Flip", "Rank Two-Point N-Bit-Flip", "Roulette Uniform N-Bit-Flip", "Roulette Two-Point N-Bit-Flip", "Simulated Annealing Bit-Flip", "Simulated Annealing N-Bit Flip", "Foolish Hill Climbing Bit-Flip", "Foolish Hill Climbing N-Bit-Flip"),
   fitnesses = c(RaUBF_best_fit, RaTPBF_best_fit, RoUBF_best_fit, RoTPBF_best_fit, RaUNBF_best_fit, RaTPNBF_best_fit, RoUNBF_best_fit, RoTPNBF_best_fit, SABF_best_fit, SANBF_best_fit, FHCBF_best_fit, FHCNBF_best_fit)
 )
-Location50L5P<- loc_scatter
-write.csv(Best50L5P, file = "FitnessFor50L5P_PracticalData.csv")
-write.csv(Location50L5P, file = "LocationsFor50L5P_PracticalData.csv")
+Location100L10P<- loc_scatter
+write.csv(Best100L10P, file = "FitnessFor100L10P_PracticalData.csv")
+write.csv(Location100L10P, file = "LocationsFor100L10P_PracticalData.csv")
 
 timeused <- proc.time() - timing
